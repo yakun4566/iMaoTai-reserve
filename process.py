@@ -336,3 +336,30 @@ def getUserEnergyAward(mobile: str):
     # response.json().get('message') if '无法领取奖励' in response.text else "领取奖励成功"
     logging.info(
         f'领取耐力 : mobile:{mobile} :  response code : {response.status_code}, response body : {response.text}')
+
+
+# 查询申购结果
+def getReservationResult(mobile: str):
+    msg = ''
+    TODAY = datetime.date.today().strftime("%Y%m%d")
+    response = requests.get('https://app.moutai519.com.cn/xhr/front/mall/reservation/list/pageOne/queryV2',
+                             headers=headers, json={})
+    # response.json().get('message') if '无法领取奖励' in response.text else "领取奖励成功"
+    reservationItemVOS = response.json().get('data').get('reservationItemVOS')
+    for item in reservationItemVOS:
+        # 申购状态，0：未公示，1：申购失败，?:申购成功
+        status = str(item['status'])
+        itemName = str(item['itemName'])
+        reservationTime = item['reservationTime']
+        statusNm = ''
+        if '0' == status:
+            statusNm = '未公示'
+        elif '1' == status:
+            statusNm = '申购失败'
+        else:
+            statusNm = '申购成功'
+            msg = f'今日{TODAY}申购结果:{mobile}; 商品: {itemName} : {statusNm};'
+
+        if TODAY == datetime.datetime.fromtimestamp(reservationTime/1000).strftime('%Y%m%d'):
+            print(f'今日{TODAY}申购结果:{mobile}; {itemName} : {statusNm};')
+    return msg
