@@ -43,8 +43,7 @@ for section in configs.sections():
     process.init_headers(user_id=userId, token=token, lng=lng, lat=lat)
     # 根据配置中，要预约的商品ID，城市 进行自动预约
     try:
-        for item in config.ITEM_CODES:
-            s_content += process.getReservationResult(mobile=mobile)
+        s_content += process.getReservationResult(mobile=mobile)
     except BaseException as e:
         print(e)
         logging.error(e)
