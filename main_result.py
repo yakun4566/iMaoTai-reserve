@@ -2,11 +2,9 @@ import datetime
 import logging
 import sys
 
-import config
 import login
-import process
 import privateCrypt
-
+import process
 
 DATE_FORMAT = "%m/%d/%Y %H:%M:%S %p"
 TODAY = datetime.date.today().strftime("%Y%m%d")
