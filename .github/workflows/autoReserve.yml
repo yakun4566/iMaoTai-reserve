@@ -3,7 +3,6 @@
 
 name: imaotai-action
 
-
 on:
   push:
     branches: [ "master" ]
